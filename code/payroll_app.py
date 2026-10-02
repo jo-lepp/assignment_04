@@ -20,7 +20,12 @@ Test it: pytest tests/test_pipeline.py -k app
 # package, and every widget it needs you used in Assignment 03. README Step 8 has
 # the exact widgets, keys and labels; the tests in tests/test_pipeline.py -k app
 # check them.
-#
+from turtle import up
+
+import pandas as pd
+import streamlit as st
+from payroll.extract import load_employees, load_timesheet
+from payroll.compute import build_payroll, payroll_export
 # The shape, in words:
 #
 #   title and a sentence of instructions
@@ -38,3 +43,14 @@ Test it: pytest tests/test_pipeline.py -k app
 #
 # What the page does NOT do: arithmetic on rows, cleaning, merging. If you find
 # yourself writing a loop or an apply here, that logic belongs in the package.
+
+st.title("Salt City Coffee - Weekly Payroll")
+st.subheader("Upload timesheet")
+
+roster = load_employees()
+upload = st.file_uploader(key="timesheet")
+if upload:
+    timesheet = load_timesheet(upload)
+    payroll = build_payroll(timesheet, roster)
+    st.subheader(payroll['payroll_date'].unique())
+    
