@@ -74,16 +74,16 @@ def add_gross_pay(payroll: pd.DataFrame) -> pd.DataFrame:
     """
     copy = payroll.copy()
     copy["gross_pay"] = copy.apply(lambda row: calc_gross_pay(row["hours_worked"],
-                                                              row["hourly_rate_usd"]), axis=1)
+                                                              row["hourly_rate_usd"]),
+                                                              axis=1)
     return copy
 
-
-
-def add_pay_type(payroll: pd.DataFrame) -> pd.DataFrame:
+def add_pay_type(payroll: pd.DataFrame) -> pd.DataFrame: 
     """Return a copy with one new column, `pay_type`: `classify_pay` for every row."""
     copy = payroll.copy()
     copy["pay_type"] = copy.apply(lambda row: classify_pay(row["hours_worked"],
-                                                                  row["hourly_rate_usd"]), axis=1)
+                                                                  row["hourly_rate_usd"]),
+                                                                  axis=1)
     return copy
 
 
@@ -95,7 +95,7 @@ def build_payroll(timesheet: pd.DataFrame, employees: pd.DataFrame) -> pd.DataFr
     pipeline computes (`hours_worked`, `hourly_rate_usd`, `gross_pay`, `pay_type`)
     and the roster's columns — one row per timesheet row.
     """
-     # Step 1: clean each frame with the step that matches its columns
+    # Step 1: clean each frame with the step that matches its columns
     clean_timesheet = add_hours_worked(timesheet)
     clean_roster = add_hourly_rate(employees)
 

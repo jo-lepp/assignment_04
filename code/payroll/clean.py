@@ -18,7 +18,6 @@ This step is walked through line by line in each docstring. The next two steps
 give you less.
 """
 
-from altair import value
 import pandas as pd
 
 

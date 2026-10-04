@@ -11,9 +11,6 @@ docstring before you pick `how=`.
 
 Less scaffolding here: the steps are described, the code is yours.
 """
-
-import re
-
 import pandas as pd
 
 

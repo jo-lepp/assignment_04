@@ -19,10 +19,7 @@ Test it: pytest tests/test_pipeline.py -k app
 # No scaffolding. Every function this page needs already exists in the payroll
 # package, and every widget it needs you used in Assignment 03. README Step 8 has
 # the exact widgets, keys and labels; the tests in tests/test_pipeline.py -k app
-# check them.
-from turtle import up
-
-import pandas as pd
+# check them
 import streamlit as st
 from payroll.extract import load_employees, load_timesheet
 from payroll.compute import build_payroll, payroll_export
@@ -56,8 +53,8 @@ if upload:
     st.subheader(f"Pay period ending in {payroll['payroll_date'].unique()[0]}")
 
     col1, col2, col3, col4 = st.columns(4)
-    employees_paid = payroll.loc[payroll['pay_type'] != 'unmatched', 'employee_id'].nunique()
-    col1.metric("Employees paid", employees_paid)
+    emp_paid = payroll.loc[payroll['pay_type'] != 'unmatched', 'employee_id'].nunique()
+    col1.metric("Employees paid", emp_paid)
 
     total_hours = payroll['hours_worked'].sum()
     col2.metric("Total hours", total_hours)
