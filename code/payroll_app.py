@@ -48,9 +48,37 @@ st.title("Salt City Coffee - Weekly Payroll")
 st.subheader("Upload timesheet")
 
 roster = load_employees()
-upload = st.file_uploader(key="timesheet")
+upload = st.file_uploader(label="Upload your timesheet", key="timesheet")
+
 if upload:
     timesheet = load_timesheet(upload)
     payroll = build_payroll(timesheet, roster)
-    st.subheader(payroll['payroll_date'].unique())
-    
+    st.subheader(f"Pay period ending in {payroll['payroll_date'].unique()[0]}")
+
+    col1, col2, col3, col4 = st.columns(4)
+    employees_paid = payroll.loc[payroll['pay_type'] != 'unmatched', 'employee_id'].nunique()
+    col1.metric("Employees paid", employees_paid)
+
+    total_hours = payroll['hours_worked'].sum()
+    col2.metric("Total hours", total_hours)
+
+    total_gross_pay = payroll['gross_pay'].sum()
+    col3.metric("Total gross pay", f"${total_gross_pay:,.2f}")
+
+    overtime_weeks = len(payroll[payroll['hours_worked'] > 40])
+    col4.metric("Overtime weeks", overtime_weeks)
+
+    unmatched = payroll[payroll['pay_type'] == 'unmatched']['employee_id'].unique()
+    if len(unmatched) > 0:
+        st.warning(f"Unmatched Employee IDs: {', '.join(map(str, unmatched))}")
+    else:
+        st.success("All employees matched successfully.")
+
+    st.dataframe(payroll)
+    st.download_button(
+        label="Download payroll CSV for the provider",
+        data=payroll_export(payroll).to_csv(index=False),
+        file_name="payroll.csv",
+        mime="text/csv",
+        key="download"
+    )

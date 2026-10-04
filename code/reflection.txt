@@ -2,9 +2,12 @@ Write your reflection here.
 
 I learned about how to export a dataframe without altering the original,
 by using a format similar to json. One thing that is tripping me up is filtering dataframes,
-like in compute.py when the assignment asks me to make the payroll_export function,
+like in compute.py when the assignment asks me to make the payroll_export() function,
 because it's slightly different from RStudio, which I'm used to, so it's really weird, but I can
-always take time to practice this weekend when I have some free time.
+always take time to practice this weekend when I have some free time. another thing i need to be more aware
+of is the structure of databases, and which columns i'm adding to which inputs. The cleaning step of timesheet
+versus employees tripped me up. I also need to brush up on some streamlit functions and options so that 
+it's easier to do my project at the end of the semester.
 
 See reflection.md for what makes a good reflection — be specific, use the
 terminology from this assignment (lineage, grain, element function, Series.apply,

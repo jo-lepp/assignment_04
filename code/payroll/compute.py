@@ -95,22 +95,16 @@ def build_payroll(timesheet: pd.DataFrame, employees: pd.DataFrame) -> pd.DataFr
     pipeline computes (`hours_worked`, `hourly_rate_usd`, `gross_pay`, `pay_type`)
     and the roster's columns — one row per timesheet row.
     """
-    # CLEANING TIMESHEET
-    add_hours_timesheet = add_hours_worked(timesheet)
-    add_rate_timesheet = add_hourly_rate(add_hours_timesheet)
+     # Step 1: clean each frame with the step that matches its columns
+    clean_timesheet = add_hours_worked(timesheet)
+    clean_roster = add_hourly_rate(employees)
 
-    # CLEANING ROSTER
-    add_hours_roster = add_hours_worked(employees)
-    add_rate_roster = add_hourly_rate(add_hours_roster)
+    # Step 2: merge
+    merged = merge_employees(clean_timesheet, clean_roster)
 
-    # MERGING
-    merged_df = merge_employees(add_rate_timesheet, add_rate_roster)
-
-    # ADDING COLUMNS
-    df_gross_pay = add_gross_pay(merged_df)
-    df_pay_type = add_pay_type(df_gross_pay)
-
-    return df_pay_type
+    # Step 3: compute pay
+    with_pay = add_gross_pay(merged)
+    return add_pay_type(with_pay)
 
 
 def payroll_export(payroll: pd.DataFrame) -> pd.DataFrame:
